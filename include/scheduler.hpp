@@ -11,6 +11,6 @@ enum class Algorithm
     RR
 };
 
-process_t schedule(Algorithm algo, std::deque<process_t> &process_queue);
+PCB_t schedule(Algorithm algo, std::deque<PCB_t> &process_queue);
 
 #endif

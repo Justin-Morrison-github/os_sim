@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <deque>
+#include <vector>
+#include <string>
 
 #define INVALID -1
 
@@ -15,7 +17,7 @@ enum class ProcessState
     TERMINATED
 };
 
-typedef struct process
+typedef struct PCB
 {
     int pid = INVALID;
     int arrival_time = INVALID;
@@ -24,10 +26,9 @@ typedef struct process
     ProcessState state = ProcessState::NEW;
     int starting_addr = INVALID;
 
-} process_t;
+} PCB_t;
 
-void print_queue(std::deque<process_t> process_queue);
-void run_process(process_t &process);
-void print_process(const process_t &p);
-
+void print_queue(std::deque<PCB_t> process_queue);
+void print_pcb(const PCB_t &p);
+std::vector<PCB_t> read_processes_in(std::string filepath);
 #endif

@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
-void allocate(process_t &process, memory_t &memory, AllocationType type)
+void allocate(PCB_t &process, memory_t &memory, AllocationType type)
 {
     switch (type)
     {
@@ -31,7 +31,7 @@ void allocate(process_t &process, memory_t &memory, AllocationType type)
     }
 }
 
-void allocate(process_t &process, memory_t &memory, AllocationType type, AllocationStrategy strat)
+void allocate(PCB_t &process, memory_t &memory, AllocationType type, AllocationStrategy strat)
 {
     switch (type)
     {

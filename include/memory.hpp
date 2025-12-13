@@ -4,7 +4,7 @@
 #include "process.hpp"
 
 #define PAGE_SIZE 1024
-#define MEMORY_SIZE 1024 * 16
+#define MEMORY_SIZE 1024 * 8
 #define NUM_PAGES MEMORY_SIZE / PAGE_SIZE
 
 #define INVALID_ADDR -1
@@ -39,7 +39,7 @@ page_t make_page();
 typedef struct memory
 {
     page_t frames[NUM_PAGES];
-    int first_free_frame;
+    int first_free_frame = 0;
 } memory_t;
 
 typedef struct
@@ -50,8 +50,8 @@ typedef struct
 } page_table_entry_t;
 
 extern page_table_entry_t page_table[NUM_PAGES];
-void allocate(process_t &process, memory_t &memory, AllocationType type, AllocationStrategy strat);
-void allocate(process_t &process, memory_t &memory, AllocationType type);
+void allocate(PCB_t &process, memory_t &memory, AllocationType type, AllocationStrategy strat);
+void allocate(PCB_t &process, memory_t &memory, AllocationType type);
 
 void print_memory(memory_t &memory);
 
