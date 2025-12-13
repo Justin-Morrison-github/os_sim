@@ -1,8 +1,10 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef PROCESS_HPP
+#define PROCESS_HPP
 
 #include <cstdint>
 #include <deque>
+
+#define INVALID -1
 
 enum class ProcessState
 {
@@ -15,11 +17,12 @@ enum class ProcessState
 
 typedef struct process
 {
-    uint8_t pid;
-    uint8_t arrival_time;
-    uint8_t execution_time;
-    uint8_t io_length;
-    ProcessState state;
+    int pid = INVALID;
+    int arrival_time = INVALID;
+    int execution_time = INVALID;
+    int io_length = INVALID;
+    ProcessState state = ProcessState::NEW;
+    int starting_addr = INVALID;
 
 } process_t;
 

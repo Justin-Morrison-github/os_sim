@@ -4,7 +4,7 @@ SRC_DIR = src
 
 # Compiler
 CXX = g++
-CXXFLAGS = -Wall -Iinclude
+CXXFLAGS = -Wall -Iinclude -g -O0 -MMD -MP
 
 # Find all .cpp files in src/
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
@@ -34,5 +34,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp| $(BUILD_DIR)
 # Cleanup
 clean:
 	rm -rf build $(TARGET)
+
+-include $(OBJ:.o=.d)
+
 
 .PHONY: all clean
