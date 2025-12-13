@@ -5,6 +5,8 @@
 #include <deque>
 #include <vector>
 #include <string>
+#include "memory.hpp"
+#include <unordered_map>
 
 #define INVALID -1
 
@@ -25,6 +27,8 @@ typedef struct PCB
     int io_length = INVALID;
     ProcessState state = ProcessState::NEW;
     int starting_addr = INVALID;
+    int size = INVALID;
+    std::unordered_map<int, int> page_table;
 
 } PCB_t;
 

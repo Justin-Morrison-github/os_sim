@@ -11,16 +11,21 @@
 #include <string>
 
 #include "process.hpp"
+#include "utils.hpp"
 
+#define TABLE_WIDTH 60
 void print_queue(std::deque<PCB_t> process_queue)
 {
+
+    std::cout << "\n\nProcess Queue\n";
+    std::cout << fill_n('-', TABLE_WIDTH) << std::endl;
     // Headers
     std::cout << std::left
               << std::setw(8) << "pid"
               << std::setw(8) << "arrive"
               << std::setw(8) << "exec"
               << std::setw(8) << "io"
-              << std::setw(8) << "io"
+              << std::setw(8) << "size"
               << "\n";
 
     // Rows
@@ -28,6 +33,7 @@ void print_queue(std::deque<PCB_t> process_queue)
     {
         print_pcb(p);
     }
+    std::cout << fill_n('-', TABLE_WIDTH) << std::endl;
 }
 
 void print_pcb(const PCB_t &p)
@@ -75,8 +81,9 @@ std::vector<PCB_t> read_processes_in(std::string filepath)
         int execution_time = stoi(parts[2]);
         int io_length = stoi(parts[3]);
         int starting_addr = stoi(parts[4]);
+        int size = stoi(parts[5]);
 
-        PCB_t pcb = {pid, arrival_time, execution_time, io_length, ProcessState::NEW, starting_addr};
+        PCB_t pcb = {pid, arrival_time, execution_time, io_length, ProcessState::NEW, starting_addr, size};
         processes.push_back(pcb);
     }
 

@@ -1,7 +1,14 @@
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
 
-#include "process.hpp"
+#include <cstdint>
+// Forward-declare PCB_t to avoid circular include with `process.hpp`.
+// `process.hpp` includes this header to use `page_t`, so `memory.hpp`
+// should not include `process.hpp` back.
+typedef struct PCB PCB_t;
+#include <stddef.h>
+#include <vector>
+#include <deque>
 
 #define PAGE_SIZE 1024
 #define MEMORY_SIZE 1024 * 8
@@ -28,9 +35,10 @@ enum class AllocationType
 typedef struct page
 {
     int start_addr = INVALID_ADDR;
-    int size = INVALID;
+    int size = PAGE_SIZE;
     bool free = true;
-    int pid = INVALID;
+    int pid = -1;
+    int used = -1;
 
 } page_t;
 
@@ -39,7 +47,7 @@ page_t make_page();
 typedef struct memory
 {
     page_t frames[NUM_PAGES];
-    int first_free_frame = 0;
+    std::deque<int> free_frames[NUM_PAGES];
 } memory_t;
 
 typedef struct
@@ -52,6 +60,7 @@ typedef struct
 extern page_table_entry_t page_table[NUM_PAGES];
 void allocate(PCB_t &process, memory_t &memory, AllocationType type, AllocationStrategy strat);
 void allocate(PCB_t &process, memory_t &memory, AllocationType type);
+void free_pcb(PCB_t &process, memory_t &memory, AllocationType type);
 
 void print_memory(memory_t &memory);
 

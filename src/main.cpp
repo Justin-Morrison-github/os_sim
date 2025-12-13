@@ -27,15 +27,10 @@ int main()
 
     for (int i = 0; i < NUM_PAGES; i++)
     {
-        memory.frames[i] = make_page();
+        page_t page = make_page();
+        memory.frames[i] = page;
+        memory.free_frames->push_back(i);
     }
-
-    print_memory(memory);
-    std::cout << "--------------------------------------\n";
-
-    print_queue(wait_queue);
-
-    std::cout << "--------------------------------------\n";
 
     size_t jobs_done = 0;
     while (jobs_done < process_list.size())
@@ -45,7 +40,10 @@ int main()
             if (pcb.arrival_time == curr_time)
             {
                 allocate(pcb, memory, alloc_type);
+                print_memory(memory);
+
                 wait_queue.push_back(pcb);
+                print_queue(wait_queue);
             }
         }
 
@@ -67,6 +65,8 @@ int main()
             std::cout << "\nPID " << (active.pid) << " done\n";
             active.state = ProcessState::TERMINATED;
             jobs_done++;
+            free_pcb(active, memory, alloc_type);
+            print_memory(memory);
         }
         curr_time++;
     }
