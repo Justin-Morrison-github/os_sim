@@ -119,7 +119,7 @@ void print_page(const page_t &page, const int i)
               << "\n";
 }
 
-#define MMEM_TABLE_WIDTH 80
+#define MMEM_TABLE_WIDTH 100
 
 void print_memory(memory_t &memory)
 {
@@ -132,7 +132,7 @@ void print_memory(memory_t &memory)
               << std::setw(15) << "frame"
               << std::setw(15) << "size"
               << std::setw(15) << "free"
-              << std::setw(15) << "allocated pid"
+              << std::setw(15) << "pid"
               << std::setw(15) << "start addr"
               << std::setw(15) << "used"
               << "\n";
@@ -142,6 +142,67 @@ void print_memory(memory_t &memory)
         print_page(memory.frames[i], i);
     }
     std::cout << fill_n('-', MMEM_TABLE_WIDTH) << std::endl;
+}
+
+std::string memory_trace_string(memory_t &memory, const int curr_time)
+{
+    const int col_width = 12; // width of each column
+    const int num_cols = 6;   // frame, size, free, allocated pid, start addr, used
+    const int width = col_width * num_cols;
+    const std::string separator = "+";
+
+    std::stringstream buffer;
+    buffer << "\nTime: " << curr_time << "\n ";
+
+    // Print top border
+    buffer
+        << separator;
+    for (int i = 0; i < num_cols; ++i)
+        buffer << std::setfill('-') << std::setw(col_width) << separator;
+    buffer << "\n";
+
+    buffer << std::setfill(' ');
+
+    // Print headers
+    buffer << "|"
+           << std::setw(col_width - 1) << "frame" << "|"
+           << std::setw(col_width - 1) << "size" << "|"
+           << std::setw(col_width - 1) << "free" << "|"
+           << std::setw(col_width - 1) << "pid" << "|"
+           << std::setw(col_width - 1) << "start addr" << "|"
+           << std::setw(col_width - 1) << "used" << "|"
+           << "\n";
+
+    // Print header-bottom border
+    buffer << separator;
+    for (int i = 0; i < num_cols; ++i)
+        buffer << std::setfill('-') << std::setw(col_width) << separator;
+    buffer << "\n";
+    buffer << std::setfill(' ');
+
+    // Print each row
+    int frame_num = 0;
+    for (const auto &page : memory.frames)
+    {
+        buffer << "|"
+               << std::setw(col_width - 1) << frame_num << "|"
+               << std::setw(col_width - 1) << page.size << "|"
+               << std::setw(col_width - 1) << page.free << "|"
+               << std::setw(col_width - 1) << page.pid << "|"
+               << std::setw(col_width - 1) << page.start_addr << "|"
+               << std::setw(col_width - 1) << page.used << "|"
+               << "\n";
+        ++frame_num;
+    }
+
+    // Print bottom border
+    buffer << separator;
+    for (int i = 0; i < num_cols; ++i)
+        buffer << std::setfill('-') << std::setw(col_width) << separator;
+    buffer << "\n";
+    buffer << std::setfill(' ');
+
+    return buffer.str();
 }
 
 page_t make_page()

@@ -9,14 +9,16 @@
 #include <unordered_map>
 
 #define INVALID -1
+#define PCB_TRACE_FILE "output/pcb_table.txt"
 
-enum class ProcessState
+enum ProcessState
 {
     NEW,
     READY,
     RUNNING,
     WAITING,
-    TERMINATED
+    TERMINATED,
+    NONE
 };
 
 typedef struct PCB
@@ -34,5 +36,6 @@ typedef struct PCB
 
 void print_queue(std::deque<PCB_t> process_queue);
 void print_pcb(const PCB_t &p);
+std::string pcb_trace_string(const PCB_t &p, const std::deque<PCB_t> wait_queue, const int curr_time, const ProcessState prev_state, const ProcessState new_state);
 std::vector<PCB_t> read_processes_in(std::string filepath);
 #endif

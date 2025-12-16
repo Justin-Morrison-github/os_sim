@@ -9,12 +9,15 @@ typedef struct PCB PCB_t;
 #include <stddef.h>
 #include <vector>
 #include <deque>
+#include <string>
 
 #define PAGE_SIZE 1024
 #define MEMORY_SIZE 1024 * 8
 #define NUM_PAGES MEMORY_SIZE / PAGE_SIZE
 
 #define INVALID_ADDR -1
+
+#define MEMORY_TRACE_FILE "output/memory.txt"
 
 enum class AllocationStrategy
 {
@@ -63,5 +66,5 @@ void allocate(PCB_t &process, memory_t &memory, AllocationType type);
 void free_pcb(PCB_t &process, memory_t &memory, AllocationType type);
 
 void print_memory(memory_t &memory);
-
+std::string memory_trace_string(memory_t &memory, const int curr_time);
 #endif

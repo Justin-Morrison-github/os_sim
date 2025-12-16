@@ -4,4 +4,5 @@
 #include "memory.hpp"
 
 int calc_offset(AllocationType type, void *arg);
+void accessMemory(PCB_t &process);
 #endif
